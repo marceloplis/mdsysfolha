@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+                               "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+ 	<data-sources/>
+ 	
+ 	<form-beans>
+ 		<form-bean name="LoginForm"   			type="br.com.mdsysfolha.action.login.LoginForm"/> 
+ 		<form-bean name="novaSenhaForm" 		type="br.com.mdsysfolha.action.login.NovaSenhaForm"/>	
+ 		
+ 		<form-bean name="usuarioForm" 			type="br.com.mdsysfolha.action.admin.usuario.UsuarioForm"/>
+ 		<form-bean name="cargaDadosForm" 		type="br.com.mdsysfolha.action.cargadados.CargaDadosForm"/>
+ 		
+ 		<form-bean name="funcionarioForm" 		type="br.com.mdsysfolha.action.funcionario.FuncionarioForm"/>
+ 		<form-bean name="cargoForm" 			type="br.com.mdsysfolha.action.cargo.CargoForm"/>
+ 		<form-bean name="beneficioForm" 		type="br.com.mdsysfolha.action.beneficio.BeneficioForm"/>
+ 		<form-bean name="descontoForm" 			type="br.com.mdsysfolha.action.desconto.DescontoForm"/>
+ 		<form-bean name="folhaForm" 			type="br.com.mdsysfolha.action.folhapagamento.FolhaPagamentoForm"/>
+ 		<form-bean name="lancamentoAvulsoForm" 	type="br.com.mdsysfolha.action.avulso.LancamentoAvulsoForm"/>
+ 		<form-bean name="lancamentoExtraForm" 	type="br.com.mdsysfolha.action.extras.LancamentoExtraForm"/>
+ 		
+ 		
+ 	</form-beans>
+ 	
+ 	<global-exceptions>           
+      	<exception handler="br.com.mdsysfolha.action.common.GlobalExceptionHandler" key="global.error.message" type="java.lang.Exception">
+      	</exception>
+	</global-exceptions>
+
+ 	<global-forwards>
+      	<forward name="error" path="/error.do" />
+	</global-forwards>      
+
+ 
+ 	<action-mappings>  	
+ 	
+ 		<action path="/error" forward="page.error" />			
+  		
+  		<!-- LOGIN -->
+  		<action parameter="method" 
+  				path="/formlogin" 
+  				type="br.com.mdsysfolha.action.login.LoginAction" 
+  				scope="request"
+  				name="LoginForm"
+  				validate="false"
+  				input="login.form.page">
+   			<forward name="login-form" 	path="login.form.page"/>
+  		</action>
+  		<action parameter="method" 
+  				path="/login" 
+  				type="br.com.mdsysfolha.action.login.LoginAction" 
+  				scope="request"
+  				name="LoginForm"
+  				validate="true"
+  				input="login.form.page">
+   			<forward name="login-form" 	path="login.form.page"/>
+   			<forward name="sucesso" 	path="/secure/home.do?method=home" redirect="true"/>
+   			<forward name="erro" 		path="login.form.page"/>
+  		</action>  
+  		
+  		<action parameter="method" 
+  				path="/secure/trocarsenha" 
+  				type="br.com.mdsysfolha.action.login.NovaSenhaAction" 
+  				scope="session"
+  				name="novaSenhaForm"
+  				validate="false"
+  				input="novasenha.formulario.page">
+  			<forward name="trocar-senha"	path="novasenha.formulario.page"/>
+  		</action>  		
+  		<action parameter="method" 
+  				path="/secure/gravarsenha" 
+  				type="br.com.mdsysfolha.action.login.NovaSenhaAction" 
+  				scope="session"
+  				name="novaSenhaForm"
+  				validate="true"
+  				input="novasenha.formulario.page">
+  			<forward name="sucesso" 		path="novasenha.formulario.page"/>
+  		</action>
+  		
+  		<!-- HOME -->		
+  		<action parameter="method" 
+  				path="/secure/home" 
+  				type="br.com.mdsysfolha.action.login.LoginAction" 
+  				scope="request"
+  				name="LoginForm"
+  				validate="false"
+  				input="sistema.home.page">
+  			<forward name="home" 	path="sistema.home.page"/>
+  		</action>   
+  		
+  		<!--  SISTEMA -->
+  		<action parameter="method" 
+  				path="/secure/admin/usuario" 
+  				type="br.com.mdsysfolha.action.admin.usuario.UsuarioAction" 
+  				scope="session"
+  				name="usuarioForm"
+  				validate="false"
+  				input="usuario.formulario.page">
+  			<forward name="formulario" 		path="usuario.formulario.page"/>
+  			<forward name="consulta" 		path="usuario.consulta.page"/> 
+  			<forward name="listar" 			path="usuario.lista.page"/>  			
+  		</action>  		
+  		<action parameter="method" 
+  				path="/secure/admin/gravausuario" 
+  				type="br.com.mdsysfolha.action.admin.usuario.UsuarioAction" 
+  				scope="session"
+  				name="usuarioForm"
+  				validate="true"
+  				input="usuario.formulario.page">
+  			<forward name="sucesso" 	path="usuario.lista.page"/>
+  			<forward name="formulario" 	path="usuario.formulario.page"/>
+  		</action> 
+  		
+  		<!-- CARGA DADOS -->
+  		<action parameter="method" 
+  				path="/secure/admin/arquivo" 
+  				type="br.com.mdsysfolha.action.cargadados.CargaDadosAction" 
+  				scope="session"
+  				name="cargaDadosForm"
+  				validate="false"
+  				input="cargadados.formulario.page">
+  			<forward name="formulario" 	path="cargadados.formulario.page"/>  			
+  		</action>  		
+  		<action parameter="method" 
+  				path="/secure/admin/processacargadados" 
+  				type="br.com.mdsysfolha.action.cargadados.CargaDadosAction" 
+  				scope="session"
+  				name="cargaDadosForm"
+  				validate="true"
+  				input="cargadados.formulario.page">
+  			<forward name="sucesso" 	path="cargadados.sucesso.page"/>
+  			<forward name="formulario" 	path="cargadados.formulario.page"/>
+  		</action> 
+  		
+  		<!-- CADASTROS -->
+  		<action parameter="method" 
+  				path="/secure/cadastro/funcionario" 
+  				type="br.com.mdsysfolha.action.funcionario.FuncionarioAction" 
+  				scope="session"
+  				name="funcionarioForm"
+  				validate="false"
+  				input="funcionario.lista.page">
+  			<forward name="listar" 			path="funcionario.lista.page"/>  
+  			<forward name="formulario" 		path="funcionario.formulario.page"/>			
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravafuncionario" 
+  				type="br.com.mdsysfolha.action.funcionario.FuncionarioAction" 
+  				scope="session"
+  				name="funcionarioForm"
+  				validate="true"
+  				input="funcionario.formulario.page">
+  			<forward name="sucesso" 	path="funcionario.sucesso.page"/>
+  			<forward name="formulario" 	path="funcionario.formulario.page"/>
+  		</action>  
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/cargo" 
+  				type="br.com.mdsysfolha.action.cargo.CargoAction" 
+  				scope="session"
+  				name="cargoForm"
+  				validate="false"
+  				input="cargo.lista.page">
+  			<forward name="listar" 			path="cargo.lista.page"/>  
+  			<forward name="formulario" 		path="cargo.formulario.page"/>			
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravacargo" 
+  				type="br.com.mdsysfolha.action.cargo.CargoAction" 
+  				scope="session"
+  				name="cargoForm"
+  				validate="true"
+  				input="cargo.lista.page">
+  			<forward name="listar" 			path="cargo.lista.page"/>  
+  			<forward name="formulario" 		path="cargo.formulario.page"/>			
+  		</action>
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/beneficio" 
+  				type="br.com.mdsysfolha.action.beneficio.BeneficioAction" 
+  				scope="session"
+  				name="beneficioForm"
+  				validate="false"
+  				input="beneficio.lista.page">
+  			<forward name="listar" 			path="beneficio.lista.page"/>  	
+  			<forward name="formulario" 		path="beneficio.formulario.page"/>
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravabeneficio" 
+  				type="br.com.mdsysfolha.action.beneficio.BeneficioAction" 
+  				scope="session"
+  				name="beneficioForm"
+  				validate="true"
+  				input="beneficio.formulario.page">
+  			<forward name="listar" 			path="beneficio.lista.page"/>  	
+  		</action>
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/desconto" 
+  				type="br.com.mdsysfolha.action.desconto.DescontoAction" 
+  				scope="session"
+  				name="descontoForm"
+  				validate="false"
+  				input="desconto.lista.page">
+  			<forward name="listar" 			path="desconto.lista.page"/>  	
+  			<forward name="formulario" 		path="desconto.formulario.page"/>
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravadesconto" 
+  				type="br.com.mdsysfolha.action.desconto.DescontoAction" 
+  				scope="session"
+  				name="descontoForm"
+  				validate="true"
+  				input="desconto.formulario.page">
+  			<forward name="listar" 			path="desconto.lista.page"/>  	
+  		</action>
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/lancamentosextra" 
+  				type="br.com.mdsysfolha.action.extras.LancamentoExtraAction" 
+  				scope="session"
+  				name="lancamentoExtraForm"
+  				validate="false"
+  				input="extra.lista.page">
+  			<forward name="listar" 			path="extra.lista.page"/>  	
+  			<forward name="formulario" 		path="extra.formulario.page"/>
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravaextra" 
+  				type="br.com.mdsysfolha.action.extras.LancamentoExtraAction" 
+  				scope="session"
+  				name="lancamentoExtraForm"
+  				validate="true"
+  				input="extra.formulario.page">
+  			<forward name="listar" 			path="extra.lista.page"/>  	
+  		</action>
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/folhapagamento" 
+  				type="br.com.mdsysfolha.action.folhapagamento.FolhaPagamentoAction" 
+  				scope="session"
+  				name="folhaForm"
+  				validate="false"
+  				input="folha.lista.page">
+  			<forward name="listar" 			path="folha.lista.page"/>  	
+  			<forward name="formulario" 		path="folha.formulario.page"/>
+  			<forward name="holerites" 		path="/secure/cadastro/folhapagamento/holerites.do?method=exibeHolerite" redirect="true"/> 
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravafolhapagamento" 
+  				type="br.com.mdsysfolha.action.folhapagamento.FolhaPagamentoAction" 
+  				scope="session"
+  				name="folhaForm"
+  				validate="true"
+  				input="folha.lista.page">
+  			<forward name="listar" 			path="folha.lista.page"/>  	  			
+  		</action>
+  		
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/outroslancamentos" 
+  				type="br.com.mdsysfolha.action.avulso.LancamentoAvulsoAction" 
+  				scope="session"
+  				name="lancamentoAvulsoForm"
+  				validate="false"
+  				input="avulso.lista.page">
+  			<forward name="listar" 			path="avulso.lista.page"/>  	
+  			<forward name="formulario" 		path="avulso.formulario.page"/>
+  		</action>
+  		<action parameter="method" 
+  				path="/secure/cadastro/gravalancamentoavulso" 
+  				type="br.com.mdsysfolha.action.avulso.LancamentoAvulsoAction" 
+  				scope="session"
+  				name="lancamentoAvulsoForm"
+  				validate="true"
+  				input="avulso.lista.page">
+  			<forward name="listar" 			path="avulso.lista.page"/>  	
+  		</action>
+  		
+  		<action parameter="method" 
+  				path="/secure/cadastro/folhapagamento/holerites" 
+  				type="br.com.mdsysfolha.action.folhapagamento.FolhaPagamentoAction" 
+  				scope="session"
+  				name="folhaForm"
+  				validate="false"
+  				input="folha.lista.page">
+  			<forward name="holerites" 			path="holerites.lista.page"/>  
+  			<forward name="imprimir" 			path="holerites.impressao.page"/>    				
+  		</action>
+  		
+ 	</action-mappings>
+	
+	<controller/>
+ 
+ 	<message-resources parameter="mdsysfolha"/>
+ 
+ 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+  		<set-property property="moduleAware" value="true"/>
+  		<set-property property="definitions-config" value="/WEB-INF/tiles-config.xml"/>
+ 	</plug-in>
+ 	
+</struts-config>

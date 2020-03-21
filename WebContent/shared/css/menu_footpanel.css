@@ -1,0 +1,199 @@
+/**MENU FIXO NA PÁGINA**/
+
+#footpanel {
+	position: fixed;
+	bottom: 0; 
+	left: 0;
+	z-index: 9999; /*--Keeps the panel on top of all other elements--*/	
+	border-bottom: none;
+	width: 100%;
+	margin-left: -1px;
+	padding: 2px;
+	background-color: #1b1b1b;
+	background-image: -moz-linear-gradient(top, #484848, #4b4b4b);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#484848), to(#4b4b4b));
+	background-image: -webkit-linear-gradient(top, #484848, #4b4b4b);
+	background-image: -o-linear-gradient(top, #484848, #4b4b4b);
+	background-image: linear-gradient(to bottom, #484848, #4b4b4b);
+	background-repeat: repeat-x;
+	border-color: #484848;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484848', endColorstr='#ff4b4b4b', GradientType=0);
+}
+
+*html #footpanel { /*--IE6 Hack - Fixed Positioning to the Bottom--*/
+	margin-top: -1px; /*--Prevents IE6 from having an infinity scroll bar - due to 1px border on #footpanel--*/
+	position: absolute;
+	top:expression(eval(document.compatMode &&document.compatMode=='CSS1Compat') ?documentElement.scrollTop+(documentElement.clientHeight-this.clientHeight) : document.body.scrollTop +(document.body.clientHeight-this.clientHeight));
+}
+
+
+
+#footpanel ul {
+	padding: 0; margin: 0;
+	float: left;
+	width: 100%;
+	list-style: none;
+	/*-- border-top: 1px solid #fff; Gives the bevel feel on the panel--*/
+	font-size: 1.1em;
+}
+#footpanel ul li{
+	/*
+	padding: 0; 
+	margin: 0;
+	*/
+	float: right;
+	position: relative;
+}
+#footpanel ul li a{
+	padding: 5px;
+	float: left;
+	text-indent: -9999px; /*--For text replacement - Shove text off of the page--*/
+	height: 16px; width: 16px;
+	text-decoration: none;
+	color: #FFFFFF;
+	position: relative;
+}
+html #footpanel ul li a:hover{	background:#1b1b1b !important;z-index: 200; color:#666 !important;}
+
+html #footpanel ul li a.active { /*--Active state when sub-panel is open--*/
+	background-color: #1b1b1b;
+	height: 17px;
+	margin-top: -2px; /*--Push it up 2px to attach the active button to sub-panel--*/
+	border: 1px solid #555;
+	border-top: none;
+	z-index: 200; /*--Keeps the active link on top of the sub-panel--*/
+	position: relative;
+}
+
+
+#footpanel a.home{
+	width: auto;
+	text-align:center;
+	padding: 5px 15px 5px 15px;	
+	border-right: 1px solid #bbb;
+	text-indent: 0; /*--Reset text indent since there will be a combination of both text and image--*/
+}
+
+#footpanel a.chat{		
+	width: 231px;
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;	
+	text-align:center;
+	text-indent: 0; 
+}
+a.alerts{	background: url(img/info.png) no-repeat center center;	 }
+#footpanel li#chatpanel, #footpanel li#alertpanel {	float: right; }  /*--Right align the chat and alert panels--*/
+.chatpanelleft{float: left !important; }
+.chatpanelleft .subpanel { width: 800px !important;}
+#footpanel .subpanel {
+	position: absolute;
+	left: 0; bottom: 27px;
+	display: none;	/*--Hide by default--*/
+	width: 198px;
+	border: 1px solid #555;
+	background: #fff;
+	overflow: hidden;
+}
+#footpanel h3 {	
+	padding: 0px 11px;
+	color: #fff;
+	font-size: 1.1em;
+	cursor: pointer;
+	background-color: #1b1b1b;
+	background-image: -moz-linear-gradient(top, #484848, #4b4b4b);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#484848), to(#4b4b4b));
+	background-image: -webkit-linear-gradient(top, #484848, #4b4b4b);
+	background-image: -o-linear-gradient(top, #484848, #4b4b4b);
+	background-image: linear-gradient(to bottom, #484848, #4b4b4b);
+	background-repeat: repeat-x;
+	border-color: #484848;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484848', endColorstr='#ff4b4b4b', GradientType=0);
+}
+#footpanel h3 span { /*--Right aligned "-" icon--*/
+	font-size: 1.5em;
+	float: right;
+	line-height: 1.5em;
+	font-weight: normal;
+}
+
+#footpanel .subpanel ul{
+	margin: 0;
+	background: #fff;
+	width: 100%;
+	overflow: auto;
+	padding-bottom: 2px;
+	padding: 0 11px;
+}
+
+#footpanel .subpanel li{
+	float: none; /*--Reset float--*/
+	display: block;		
+	overflow: hidden;
+	clear: both;	
+	position: static;
+}
+
+/*
+#chatpanel .subpanel li { background: url(dash.gif) repeat-x left center; }
+*/
+
+#chatpanel .subpanel li span {
+	padding: 5px;
+	background: #fff;
+	color: #777;
+	float: left;
+}
+#chatpanel .subpanel .group{	
+	font-weight: bold;	
+}
+
+#chatpanel .subpanel li a img {
+	float: left;
+	margin: 0 5px;
+}
+#chatpanel .subpanel li img {
+	float: left;
+	margin: 0 5px;	
+}
+#chatpanel .subpanel li a{		
+	line-height: 22px;
+	height: 22px;
+	background: #fff;	
+/*	padding:0 0 0 25px !important; 	*/
+	display: block;
+	
+}
+#chatpanel .subpanel li li 
+{
+	line-height: 22px;
+	height: 22px;
+	background: #fff;	
+	padding:0 0 0 50px !important; 	
+	display: block;
+	
+	
+}
+
+#chatpanel .subpanel li a:hover {
+	background: #3b5998;
+	color: #fff;
+	text-decoration: none;
+}
+
+#alertpanel .subpanel { right: 0; left: auto; /*--Reset left positioning and make it right positioned--*/ }
+#alertpanel .subpanel li {
+	border-top: 1px solid #f0f0f0;
+	display: block;
+}
+#alertpanel .subpanel li p {padding: 5px 10px;}
+
+#footpanel ul li div a { /*--Reset link style for subpanel links--*/
+	text-indent: 0;
+	width: auto;
+	height: auto;
+	padding: 0;
+	float: none;
+	color: #00629a;
+	position: static;
+}
+#footpanel ul li div a:hover {	text-decoration: underline; background:#fff !important; } /*--Reset link style for subpanel links--*/

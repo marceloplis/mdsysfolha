@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+                                   "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+<tiles-definitions>
+ 	<definition name="tiles-config"/>
+ 	
+ 	<definition name="layout-only-body" path="/templates/layout-only-body.jsp">        
+        <put name="body"   value="" />
+    </definition> 
+ 	
+ 	<definition name="layout" path="/templates/layout.jsp">        
+        <put name="header" value="/templates/header.jsp" />
+        <put name="footer" value="/templates/footer.jsp" />
+        <put name="body"   value="" />
+    </definition> 
+     
+    <!-- Global -->
+    <definition name="page.error" extends="layout">
+        <put name="body"   value="/paginas/global/error.jsp" />
+    </definition>
+    
+    <!-- LOGIN -->
+    <definition name="login.form.page" extends="layout-only-body">
+        <put name="body"   value="/paginas/login/login.jsp" />
+    </definition>   
+    
+    <definition name="novasenha.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/login/trocarsenha.jsp" />
+    </definition>
+    
+    <!-- HOME -->
+    <definition name="sistema.home.page" extends="layout">
+        <put name="body"   value="/paginas/home/inicio.jsp" />
+    </definition>
+    
+    <!-- FORMULARIOS -->
+    <definition name="usuario.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/admin/usuario/formulario.jsp" />
+    </definition>
+    <definition name="usuario.consulta.page" extends="layout">
+    	<put name="body"   value="/paginas/admin/usuario/consulta.jsp" />
+    </definition>
+    
+    <definition name="cargadados.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/admin/arquivos/formulario.jsp" />
+    </definition>
+    <definition name="cargadados.sucesso.page" extends="layout">
+    	<put name="body"   value="/paginas/admin/arquivos/sucesso.jsp" />
+    </definition>
+    
+    <definition name="funcionario.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/funcionarios/formulario.jsp" />
+    </definition>
+    <definition name="funcionario.sucesso.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/funcionarios/sucesso.jsp" />
+    </definition>
+    
+    <definition name="cargo.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/cargos/formulario.jsp" />
+    </definition>
+    
+    <definition name="beneficio.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/beneficios/formulario.jsp" />
+    </definition>
+    
+    <definition name="desconto.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/descontos/formulario.jsp" />
+    </definition>
+    
+    <definition name="extra.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/extras/formulario.jsp" />
+    </definition>
+    
+    <definition name="folha.formulario.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/folhapagamento/formulario.jsp" />
+    </definition>
+ 	
+ 	<!-- LISTAS --> 
+ 	<definition name="usuario.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/admin/usuario/lista.jsp" />
+    </definition>	
+    
+    <definition name="funcionario.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/funcionarios/lista.jsp" />
+    </definition>
+    
+    <definition name="cargo.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/cargos/lista.jsp" />
+    </definition>
+    
+    <definition name="beneficio.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/beneficios/lista.jsp" />
+    </definition>
+    
+    <definition name="desconto.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/descontos/lista.jsp" />
+    </definition>
+    
+    <definition name="folha.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/folhapagamento/lista.jsp" />
+    </definition>
+    
+    <definition name="avulso.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/avulsos/lista.jsp" />
+    </definition>
+    
+    <definition name="extra.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/extras/lista.jsp" />
+    </definition>
+    
+    <definition name="holerites.lista.page" extends="layout">
+    	<put name="body"   value="/paginas/cadastros/folhapagamento/holerites.jsp" />
+    </definition>
+    
+    <definition name="holerites.impressao.page" extends="layout-only-body">
+    	<put name="body"   value="/paginas/cadastros/folhapagamento/impressao.jsp" />
+    </definition>
+    
+</tiles-definitions>

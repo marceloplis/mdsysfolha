@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="connection.datasource">java:comp/env/jdbc/MDSysFolhaDB</property>
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		<property name="show_sql">true</property>
+		<property name="hbm2ddl.auto">none</property>	
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.DatasourceConnectionProvider</property>
+		
+		<mapping class="br.com.mdsysfolha.entity.ParametrosEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.UsuarioEntity"/>
+		
+		<mapping class="br.com.mdsysfolha.entity.FuncionarioEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.CargoEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.BeneficioEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.DescontoEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.CargoBeneficioEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.CargoDescontoEntity"/>	
+		<mapping class="br.com.mdsysfolha.entity.LancamentosAvulsoEntity"/>				
+		<mapping class="br.com.mdsysfolha.entity.LancamentosExtraEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.FuncionarioLctosExtraEntity"/>			
+		
+		<mapping class="br.com.mdsysfolha.entity.FolhaPagamentoEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.FolhaPagamentoFuncionarioEntity"/>			
+		<mapping class="br.com.mdsysfolha.entity.LancamentosFolhaAvulsoEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.LancamentosFolhaBeneficioEntity"/>	
+		<mapping class="br.com.mdsysfolha.entity.LancamentosFolhaDescontoEntity"/>
+		<mapping class="br.com.mdsysfolha.entity.LancamentosFolhaExtraEntity"/>
+		
+		<mapping class="br.com.mdsysfolha.entity.LogArquivosCargaDadosEntity"/>	
+		
+	</session-factory>
+
+</hibernate-configuration>

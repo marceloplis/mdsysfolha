@@ -1,0 +1,20 @@
+@CHARSET "ISO-8859-1";
+
+.formulario{
+	width: 99%;
+}
+
+texto{
+	font:  italic 12px Verdana;	
+	color: #4F4F4F;
+}
+
+.msg-error{
+	color: #FF0000;
+	font:  bold 14px Verdana;
+}
+
+.msg-info{
+	color: #3A5FCD;
+	font:  bold 14px Verdana;
+}

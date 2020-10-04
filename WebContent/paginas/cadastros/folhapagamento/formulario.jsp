@@ -15,7 +15,7 @@
 		<label>Ano:</label>	
 		<input type="text" readonly="readonly" value="${folhaForm.folha.ano}">
 		<label>Tipo:</label>
-		<input type="text" readonly="readonly" value="${folhaForm.folha.tipo eq 'M' ? "Mensal" : "13º"}">
+		<input type="text" readonly="readonly" value="${folhaForm.folha.tipo eq 'M' ? "Mensal" : folhaForm.folha.tipo eq 'D' ? "13º" : "Rescisão"}">
 		<label>Status:</label>	
 		<input type="text" readonly="readonly" value="${folhaForm.folha.status eq 'A' ? "Aberta" : folha.status eq 'G' ? "Gerada" : "Finalizada"}">
 	</form>
@@ -42,7 +42,8 @@
 			if (!confirmed) {
 		        e.preventDefault();
 		        var location = '../cadastro/folhapagamento.do?method=calcular&idParam=${folhaForm.folha.id}';
-		        bootbox.confirm("Confirma o cálculo para a Folha de Pagamento ${folhaForm.folha.ano} / ${folhaForm.folha.mes}?", function (response) {			
+
+		        bootbox.confirm("Confirma o cálculo para a Folha de Pagamento ${folha.tipo eq 'M' ? 'Mensal' : folha.tipo eq 'D' ? '13º' : 'Rescisão'} ${folhaForm.folha.ano} / ${folhaForm.folha.mes}?", function (response) {			
 		            if(response) {
 		            	$(this).html('<img src="../../shared/img/fbloader.gif" />');
 		            	window.location.replace(location);		            	

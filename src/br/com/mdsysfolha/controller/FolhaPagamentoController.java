@@ -72,8 +72,8 @@ public class FolhaPagamentoController {
 		return this.factoryDao.getFolhaPagamentoFuncionarioDao().buscaPorFolhaFuncionario(func, idFolha);
 	}
 	
-	public List<FolhaPagamentoFuncionarioEntity> listarFolhaFuncByFolha(Long idFolha, Integer loja){		
-		return this.factoryDao.getFolhaPagamentoFuncionarioDao().listarFolhaFuncionarioPorFolha(idFolha, loja);
+	public List<FolhaPagamentoFuncionarioEntity> listarFolhaFuncByFolha(Long idFolha, Integer loja, String cpf){		
+		return this.factoryDao.getFolhaPagamentoFuncionarioDao().listarFolhaFuncionarioPorFolha(idFolha, loja, cpf);
 	}
 	
 	public List<LancamentosFolhaDescontoEntity> buscarFolhaDescByFunc(FuncionarioEntity func, Long idFolha){		

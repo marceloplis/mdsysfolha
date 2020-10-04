@@ -10,8 +10,10 @@ import org.apache.struts.action.ActionMessage;
 
 import br.com.mdsysfolha.action.common.FormBase;
 import br.com.mdsysfolha.entity.CargoEntity;
+import br.com.mdsysfolha.entity.FolhaPagamentoFuncionarioEntity;
 import br.com.mdsysfolha.entity.FuncionarioEntity;
 import br.com.mdsysfolha.entity.FuncionarioLctosExtraEntity;
+import br.com.mdsysfolha.entity.LancamentosAvulsoEntity;
 import br.com.mdsysfolha.entity.LancamentosExtraEntity;
 import br.com.mdsysfolha.util.Utils;
 
@@ -29,6 +31,10 @@ public class FuncionarioForm extends FormBase{
 	private List<CargoEntity> listCargos;
 	
 	public List<LancamentosExtraEntity> listExtras;
+	
+	public List<FolhaPagamentoFuncionarioEntity> folhasPgto;
+	
+	public List<LancamentosAvulsoEntity> listAvulsos;
 	
 	private int filtLoja;
 	
@@ -48,6 +54,8 @@ public class FuncionarioForm extends FormBase{
 	
 	private String dtAdmissaoParse;
 	private String salarioParse;
+	
+	private Integer tab;
 
 	public String getDtAdmissaoParse() {  
 		if (funcionario.getData_admissao()!= null)     
@@ -168,6 +176,30 @@ public class FuncionarioForm extends FormBase{
 
 	public void setLancamentoExtra(FuncionarioLctosExtraEntity lancamentoExtra) {
 		this.lancamentoExtra = lancamentoExtra;
+	}
+	
+	public List<FolhaPagamentoFuncionarioEntity> getFolhasPgto() {
+		return folhasPgto;
+	}
+	
+	public void setFolhasPgto(List<FolhaPagamentoFuncionarioEntity> folhasPgto) {
+		this.folhasPgto = folhasPgto;
+	}
+	
+	public List<LancamentosAvulsoEntity> getListAvulsos() {
+		return listAvulsos;
+	}
+	
+	public void setListAvulsos(List<LancamentosAvulsoEntity> listAvulsos) {
+		this.listAvulsos = listAvulsos;
+	}
+	
+	public Integer getTab() {
+		return tab;
+	}
+	
+	public void setTab(Integer tab) {
+		this.tab = tab;
 	}
 
 	/*Overwrite*/

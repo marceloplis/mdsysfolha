@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +41,7 @@ import br.com.mdsysfolha.enums.TipoValorEnum;
 import br.com.mdsysfolha.vo.Holerite;
 
 public class FolhaPagamentoAction extends ActionBase implements Serializable{
-	
+
 	/**
 	 * 
 	 */
@@ -46,28 +49,28 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 
 
 	public ActionForward todos(ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController();
 		List<FolhaPagamentoEntity> folhas = folhaController.listTodos();
 		folhaForm.setListFolhas(folhas);
 		folhaForm.setFolha(new FolhaPagamentoEntity());
-		
+
 		FuncionarioController funcController = new FuncionarioController();
 		List<FuncionarioEntity> funcsSemCargo = funcController.filtro(0, null, null, null, -1);
 		folhaForm.setFuncsSemCargo(funcsSemCargo.size());
-		
+
 		saveToken(request);
-		
+
 		return mapping.findForward("listar");
 	}
-	
+
 	public ActionForward gravar(ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController();  
-		
+
 		if(isTokenValid(request)) { 
 			resetToken(request); 	
 			String mes = folhaForm.getMes_ano().substring(0, folhaForm.getMes_ano().indexOf("-"));
@@ -78,75 +81,70 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 			folhaForm.setFolha(folha); 
 			folhaForm.setIdParam(new Long(folha.getId()));
 		} 	
-		
+
 		ActionMessages messages = new ActionMessages();
-        messages.add("message", new ActionMessage("msg.folha.sucesso"));
-        saveMessages(request, messages);        
-        
+		messages.add("message", new ActionMessage("msg.folha.sucesso"));
+		saveMessages(request, messages);        
+
 		saveToken(request);
-		
+
 		folhaForm.setListFolhas(folhaController.listTodos());
 		folhaForm.setFolha(new FolhaPagamentoEntity());
-		
+
 		return mapping.findForward("listar"); 
 	}
-	
+
 	public ActionForward excluir(ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController(); 
-	
+
 		if(folhaForm.getIdParam() != null) { 	
 			try{
 				folhaController.excluir(folhaForm.getIdParam());
-				
+
 				ActionMessages messages = new ActionMessages();
-		        messages.add("message", new ActionMessage("msg.folha.removido"));
-		        saveMessages(request, messages); 
+				messages.add("message", new ActionMessage("msg.folha.removido"));
+				saveMessages(request, messages); 
 			}catch (Exception e){
 				ActionMessages messages = new ActionMessages();
-		        messages.add("message", new ActionMessage("error.exclusao.folha"));
-		        saveMessages(request, messages);
+				messages.add("message", new ActionMessage("error.exclusao.folha"));
+				saveMessages(request, messages);
 			}
-			
+
 		}
-		
+
 		saveToken(request);
-		
+
 		folhaForm.setListFolhas(folhaController.listTodos());
-								
+
 		return mapping.findForward("listar"); 
-		
-	}
-	
-	public ActionForward imprimir(ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		return mapping.findForward("imprimir");
+
 	}
 
 	public ActionForward detalhe (ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController(); 
-		
+
 		folhaForm.setFolha(new FolhaPagamentoEntity());
 		if(folhaForm.getIdParam() != null){
 			folhaForm.setFolha(folhaController.buscarById(folhaForm.getIdParam()));
-			
+
 		}else{
 			folhaForm.reset(mapping, request);
 		}
-		
+
 		return mapping.findForward("formulario"); 
 	}
-	
+
 	public ActionForward apagarHolerites (ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController(); 
-		
+
 		folhaForm.setFolha(new FolhaPagamentoEntity());
 		if(folhaForm.getIdParam() != null){
 			folhaForm.setFolha(folhaController.buscarById(folhaForm.getIdParam()));
@@ -154,17 +152,17 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 			folhaForm.getFolha().setStatus(StatusFolhaEnum.ABERTA.getValue());
 			folhaController.gravar(folhaForm.getFolha());
 		}
-		
+
 		return mapping.findForward("formulario"); 
 	}
-	
-	
+
+
 	public ActionForward calcular (ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController(); 
-		
+
 		folhaForm.setFolha(new FolhaPagamentoEntity());
 		if(folhaForm.getIdParam() != null){
 			folhaForm.setFolha(folhaController.buscarById(folhaForm.getIdParam()));
@@ -174,67 +172,108 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 		}else{
 			folhaForm.reset(mapping, request);
 		}
-		
+
 		return mapping.findForward("holerites"); 
 	}
-	
+
 	private void calcularFolha(FolhaPagamentoEntity folha) throws Exception{
-		
+
 		FuncionarioController funcController = new FuncionarioController();
 		List<FuncionarioEntity> funcs = funcController.listTodosAtivos();
-				
+
 		List<FolhaPagamentoFuncionarioEntity> listFolhaFunc = new ArrayList<FolhaPagamentoFuncionarioEntity>();
-		List<LancamentosFolhaDescontoEntity> listDesc = new ArrayList<LancamentosFolhaDescontoEntity>();
-		List<LancamentosFolhaBeneficioEntity> listBenef = new ArrayList<LancamentosFolhaBeneficioEntity>();
-		List<LancamentosFolhaAvulsoEntity> listAvulso = new ArrayList<LancamentosFolhaAvulsoEntity>();
-		List<LancamentosFolhaExtraEntity> listExtra = new ArrayList<LancamentosFolhaExtraEntity>();
-		
+		Map<String, List<LancamentosFolhaDescontoEntity>> mapDesc = new HashMap<String, List<LancamentosFolhaDescontoEntity>>();
+		Map<String, List<LancamentosFolhaBeneficioEntity>> mapBenef = new HashMap<String, List<LancamentosFolhaBeneficioEntity>>();
+		Map<String, List<LancamentosFolhaAvulsoEntity>> mapAvulso = new HashMap<String, List<LancamentosFolhaAvulsoEntity>>();
+		Map<String, List<LancamentosFolhaExtraEntity>> mapExtra = new HashMap<String, List<LancamentosFolhaExtraEntity>>();
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController();
-				
+
 		for(FuncionarioEntity func : funcs){
-			
+
 			FolhaPagamentoFuncionarioEntity folhaFunc = new FolhaPagamentoFuncionarioEntity();			
-			listFolhaFunc.add(setFolhaFuncionario(func, folha, folhaFunc));
-						
+
+			List<LancamentosFolhaDescontoEntity> listDesc = new ArrayList<LancamentosFolhaDescontoEntity>();
+			List<LancamentosFolhaBeneficioEntity> listBenef = new ArrayList<LancamentosFolhaBeneficioEntity>();
+			List<LancamentosFolhaAvulsoEntity> listAvulso = new ArrayList<LancamentosFolhaAvulsoEntity>();
+			List<LancamentosFolhaExtraEntity> listExtra = new ArrayList<LancamentosFolhaExtraEntity>();
+
 			if(folha.getTipo().equals("M")){	
-				
-				//Benefícios tem que ser o primeiro cálculo para setar inicial de salário líquido
-				listBenef.addAll(calcBeneficios(func, folha, folhaFunc));			
-				
-				listDesc.addAll(calcDescontos(func, folha, folhaFunc));		
-				
+
+				//Benefï¿½cios tem que ser o primeiro cï¿½lculo para setar inicial de salï¿½rio lï¿½quido
+				listBenef.addAll(calcBeneficios(func, folha, folhaFunc));	
+				mapBenef.put(func.getCpf(), listBenef);
+
+				listDesc.addAll(calcDescontos(func, folha, folhaFunc));	
+				mapDesc.put(func.getCpf(), listDesc);
+
 				listAvulso.addAll(calcAvulso(func, folha));
-				
+				mapAvulso.put(func.getCpf(), listAvulso);
+
 				listExtra.addAll(calcExtras(func, folha, folhaFunc));
+				mapExtra.put(func.getCpf(), listExtra);
 			}else{
 				listAvulso.addAll(calcAvulso(func, folha));
+				mapAvulso.put(func.getCpf(), listAvulso);
 			}
+
+			if(listBenef.size() > 0 || listDesc.size() > 0 || listAvulso.size() > 0 || listExtra.size() > 0 ) {
+
+				listFolhaFunc.add(setFolhaFuncionario(func, folha, folhaFunc));
+			}
+
+
 		}	
-		
-		for(FolhaPagamentoFuncionarioEntity f : listFolhaFunc){
-			folhaController.gravaFolhaFuncionario(f);
+
+		if(folha.getTipo().equals("M")){
+
+			for(FolhaPagamentoFuncionarioEntity f : listFolhaFunc){
+				folhaController.gravaFolhaFuncionario(f);
+			}
+
+			for (Entry<String, List<LancamentosFolhaDescontoEntity>> entry : mapDesc.entrySet()) {
+				for(LancamentosFolhaDescontoEntity d : entry.getValue()){
+					folhaController.gravaDescontos(d);
+				}
+			}
+
+
+			for (Entry<String, List<LancamentosFolhaBeneficioEntity>> entry : mapBenef.entrySet()) {
+				for(LancamentosFolhaBeneficioEntity b : entry.getValue()){
+					folhaController.gravaBeneficios(b);
+				}
+			}
+
+			for (Entry<String, List<LancamentosFolhaExtraEntity>> entry : mapExtra.entrySet()) {
+				for(LancamentosFolhaExtraEntity e : entry.getValue()){
+					folhaController.gravaExtras(e);
+				}	
+			}
+
+			for (Entry<String, List<LancamentosFolhaAvulsoEntity>> entry : mapAvulso.entrySet()) {
+				for(LancamentosFolhaAvulsoEntity a : entry.getValue()){
+					folhaController.gravaAvulsos(a);
+				}
+			}
+
+		} else {
+
+			for(FolhaPagamentoFuncionarioEntity f : listFolhaFunc){
+				folhaController.gravaFolhaFuncionario(f);
+			}
+
+			for (Entry<String, List<LancamentosFolhaAvulsoEntity>> entry : mapAvulso.entrySet()) {
+				for(LancamentosFolhaAvulsoEntity a : entry.getValue()){
+					folhaController.gravaAvulsos(a);
+				}
+			}
+
 		}
-					
-		for(LancamentosFolhaDescontoEntity d : listDesc){
-			folhaController.gravaDescontos(d);
-		}
-		
-		for(LancamentosFolhaBeneficioEntity b : listBenef){
-			folhaController.gravaBeneficios(b);
-		}
-		
-		for(LancamentosFolhaAvulsoEntity a : listAvulso){
-			folhaController.gravaAvulsos(a);
-		}
-		
-		for(LancamentosFolhaExtraEntity e : listExtra){
-			folhaController.gravaExtras(e);
-		}		
-		
+
 	}
-	
+
 	private FolhaPagamentoFuncionarioEntity setFolhaFuncionario(FuncionarioEntity func, FolhaPagamentoEntity folha, FolhaPagamentoFuncionarioEntity folhaFunc){		
-		
+
 		folhaFunc.setFuncionario(func);
 		folhaFunc.setFolhaPagamento(folha);
 		folhaFunc.setCargo(func.getCargo().getDescricao());
@@ -244,29 +283,29 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 		}else{
 			folhaFunc.setSalario(new Double("0"));
 		}
-		
-		
+
+
 		return folhaFunc;
-		
+
 	}
-	
+
 	public class OrdemCargoDesconto implements Comparator<CargoDescontoEntity> {
-	    public int compare(CargoDescontoEntity cargo1, CargoDescontoEntity cargo2) {
-	        return cargo1.getDesconto().getOrdem().
-	                compareTo(cargo2.getDesconto().getOrdem());
-	    }
+		public int compare(CargoDescontoEntity cargo1, CargoDescontoEntity cargo2) {
+			return cargo1.getDesconto().getOrdem().
+					compareTo(cargo2.getDesconto().getOrdem());
+		}
 	}
-	
+
 	private List<LancamentosFolhaDescontoEntity> calcDescontos(FuncionarioEntity func, FolhaPagamentoEntity folha, FolhaPagamentoFuncionarioEntity folhaFunc){		
 		List<LancamentosFolhaDescontoEntity> listRet = new ArrayList<LancamentosFolhaDescontoEntity>();
-		
+
 		Double salario_liq = folhaFunc.getSalarioLiq() == null ? folhaFunc.getSalario() : folhaFunc.getSalarioLiq();
-		
+
 		List<CargoDescontoEntity> lista = new ArrayList<CargoDescontoEntity>(func.getCargo().getCargoDescontos());
-		
+
 		OrdemCargoDesconto comparator = new OrdemCargoDesconto();
 		Collections.sort(lista, comparator);
-		
+
 		for(CargoDescontoEntity cargDesc : lista){			 
 			LancamentosFolhaDescontoEntity descFolha = new LancamentosFolhaDescontoEntity();
 			descFolha.setDesconto(cargDesc.getDesconto());
@@ -283,54 +322,54 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 		}
 		return listRet;
 	}
-	
+
 	public class OrdemCargoBeneficio implements Comparator<CargoBeneficioEntity> {
-	    public int compare(CargoBeneficioEntity cargo1, CargoBeneficioEntity cargo2) {
-	        return cargo1.getBeneficio().getOrdem().
-	                compareTo(cargo2.getBeneficio().getOrdem());
-	    }
+		public int compare(CargoBeneficioEntity cargo1, CargoBeneficioEntity cargo2) {
+			return cargo1.getBeneficio().getOrdem().
+					compareTo(cargo2.getBeneficio().getOrdem());
+		}
 	}	
-	
+
 	private List<LancamentosFolhaBeneficioEntity> calcBeneficios(FuncionarioEntity func, FolhaPagamentoEntity folha, FolhaPagamentoFuncionarioEntity folhaFunc){
 		List<LancamentosFolhaBeneficioEntity> listRet = new ArrayList<LancamentosFolhaBeneficioEntity>();
-		
+
 		Double salario_liq = folhaFunc != null ? folhaFunc.getSalario() : func.getSalario();
-		
+
 		List<CargoBeneficioEntity> lista = new ArrayList<CargoBeneficioEntity>(func.getCargo().getCargoBeneficios());
-		
+
 		OrdemCargoBeneficio comparator = new OrdemCargoBeneficio();
 		Collections.sort(lista, comparator);
-		
+
 		for(CargoBeneficioEntity cargBenef : lista){			 
 			LancamentosFolhaBeneficioEntity benefFolha = new LancamentosFolhaBeneficioEntity();
 			benefFolha.setBeneficio(cargBenef.getBeneficio());
 			benefFolha.setFolhaPagamento(folha);
 			benefFolha.setFuncionario(func);
-						
+
 			Double valor_benef = 0.0;
-			
+
 			if(cargBenef.getBeneficio().getTipo_valor().equals(TipoValorEnum.MOEDA.getValue())){
 				valor_benef = cargBenef.getValor();
 			}else{				
 				valor_benef = ((cargBenef.getBeneficio().getBase_calculo().equals("B") ? (folhaFunc != null ? folhaFunc.getSalario() : func.getSalario()) : salario_liq) * cargBenef.getValor())/100;
 			}
-			
+
 			if(cargBenef.getBeneficio().getAltera_base_calculo().equals("S")){
 				salario_liq = salario_liq + valor_benef;
 				folhaFunc.setSalarioLiq(salario_liq);
 			}
-			
+
 			benefFolha.setValor(valor_benef);
 			listRet.add(benefFolha);
 		}
 		return listRet;
-		
+
 	}
-	
+
 	private List<LancamentosFolhaAvulsoEntity> calcAvulso(FuncionarioEntity func, FolhaPagamentoEntity folha){
 		LancamentoAvulsoController controller = new LancamentoAvulsoController();
 		List<LancamentosAvulsoEntity> avs = controller.listaByFuncData(func.getCpf(), folha.getAno(), folha.getMes(), folha.getTipo());
-		
+
 		List<LancamentosFolhaAvulsoEntity> listRet = new ArrayList<LancamentosFolhaAvulsoEntity>();
 		for(LancamentosAvulsoEntity a : avs){
 			LancamentosFolhaAvulsoEntity avulsoFolha = new LancamentosFolhaAvulsoEntity();
@@ -338,15 +377,15 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 			avulsoFolha.setFolhaPagamento(folha);
 			listRet.add(avulsoFolha);
 		}
-		
+
 		return listRet;
-		
+
 	}
-		
+
 	private List<LancamentosFolhaExtraEntity> calcExtras(FuncionarioEntity func, FolhaPagamentoEntity folha, FolhaPagamentoFuncionarioEntity folhaFunc){		
 		LancamentoExtraController controller = new LancamentoExtraController();
 		List<FuncionarioLctosExtraEntity> lista =  controller.listaByFunc(func.getCpf());
-		
+
 		List<LancamentosFolhaExtraEntity> listRet = new ArrayList<LancamentosFolhaExtraEntity>();
 		for(FuncionarioLctosExtraEntity e : lista){			 
 			LancamentosFolhaExtraEntity extraFolha = new LancamentosFolhaExtraEntity();
@@ -354,40 +393,40 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 			extraFolha.setExtra(extra);
 			extraFolha.setFolhaPagamento(folha);
 			extraFolha.setFuncionario(func);
-						
+
 			Double valor_extra = 0.0;
-			
+
 			if(extra.getTipo_valor().equals(TipoValorEnum.MOEDA.getValue())){
 				valor_extra = e.getValor();
 			}else{				
 				valor_extra = (folhaFunc.getSalario() * e.getValor())/100;
 			}
-			
+
 			extraFolha.setValor(valor_extra);
 			listRet.add(extraFolha);
 		}
-		
+
 		return listRet;
-		
+
 	}
-	
-	
+
+
 	public ActionForward exibeHolerite (ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
+
 		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
-		
+
 		FolhaPagamentoController folhaController = new FolhaPagamentoController();
-		
-		List<FolhaPagamentoFuncionarioEntity> folhasFuncs = folhaController.listarFolhaFuncByFolha(folhaForm.getIdParam(), folhaForm.getFiltLoja());
+
+		List<FolhaPagamentoFuncionarioEntity> folhasFuncs = folhaController.listarFolhaFuncByFolha(folhaForm.getIdParam(), folhaForm.getFiltLoja(), folhaForm.getFiltFunc());
 		List<Holerite> listHolerites = new ArrayList<Holerite>();
-		
+
 		for(FolhaPagamentoFuncionarioEntity ff : folhasFuncs){
-			
+
 			Holerite holerite = new Holerite();		
 			holerite.setFuncionario(ff.getFuncionario());
-			
+
 			holerite.setFolhaFuncionario(ff);
-			
+
 			List<LancamentosFolhaDescontoEntity> descontos = folhaController.buscarFolhaDescByFunc(ff.getFuncionario(), folhaForm.getIdParam());	
 			holerite.setDescontos(descontos);
 			Double totalDescontos = 0.0;
@@ -395,7 +434,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 				totalDescontos = totalDescontos + desc.getValor();
 			}
 			holerite.setTotalDescontos(totalDescontos);
-			
+
 			List<LancamentosFolhaBeneficioEntity> beneficios = folhaController.buscarFolhaBenefByFunc(ff.getFuncionario(), folhaForm.getIdParam());	
 			holerite.setBeneficios(beneficios);
 			Double totalBeneficios = 0.0;
@@ -403,7 +442,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 				totalBeneficios = totalBeneficios + benef.getValor();
 			}
 			holerite.setTotalBeneficios(totalBeneficios);
-			
+
 			List<LancamentosFolhaAvulsoEntity> avulsoDescontos = folhaController.buscarFolhaAvulsoDescByFunc(ff.getFuncionario(), folhaForm.getIdParam());	
 			holerite.setAvulsoDescontos(avulsoDescontos);
 			Double totalAvulsoDescontos = 0.0;
@@ -411,7 +450,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 				totalAvulsoDescontos = totalAvulsoDescontos + avdesc.getAvulso().getValor();
 			}
 			holerite.setTotalAvulsoDescontos(totalAvulsoDescontos);
-			
+
 			List<LancamentosFolhaAvulsoEntity> avulsoBeneficios = folhaController.buscarFolhaAvulsoBenefByFunc(ff.getFuncionario(), folhaForm.getIdParam());
 			holerite.setAvulsoBeneficios(avulsoBeneficios);
 			Double totalAvulsoBeneficios = 0.0;
@@ -419,7 +458,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 				totalAvulsoBeneficios = totalAvulsoBeneficios + avbenef.getAvulso().getValor();
 			}
 			holerite.setTotalAvulsoBeneficios(totalAvulsoBeneficios);
-			
+
 			List<LancamentosFolhaExtraEntity> extras = folhaController.buscarFolhaExtraByFunc(ff.getFuncionario(), folhaForm.getIdParam());	
 			holerite.setExtras(extras);
 			Double totalExtrasBeneficios = 0.0;
@@ -432,29 +471,41 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 			}
 			holerite.setTotalExtrasBeneficios(totalExtrasBeneficios);
 			holerite.setTotalExtrasDescontos(totalExtrasDescontos);
-			
+
 			Double total = 0.0;
 			Double totalRound = 0.0;
 			total = ff.getSalario() + totalBeneficios + totalAvulsoBeneficios + totalExtrasBeneficios;
 			total = total - totalDescontos - totalAvulsoDescontos - totalExtrasDescontos;
-			
+
 			totalRound = Math.ceil(total);
 			while((totalRound % 10) != 0){
 				totalRound++;
 			}
 			holerite.setArredondamento(totalRound - total);
-			
+
 			holerite.setTotal(total + holerite.getArredondamento());
-			
-			if(holerite.getTotal() > 0){
-				listHolerites.add(holerite);
-			}
+
+
+			listHolerites.add(holerite);
+
 		}
-		
+
 		folhaForm.setHolerites(listHolerites);
-				
+
 		return mapping.findForward("holerites");
-		
+
 	}
-	
+
+	public ActionForward imprimir(ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
+
+		this.exibeHolerite(mapping, folhaForm, request, response);
+
+		folhaForm.setFiltFunc(null);
+
+		return mapping.findForward("imprimir");
+	}
+
+
 }

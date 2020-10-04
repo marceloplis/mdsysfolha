@@ -13,10 +13,14 @@ import org.apache.struts.action.ActionMessages;
 
 import br.com.mdsysfolha.action.common.ActionBase;
 import br.com.mdsysfolha.controller.CargoController;
+import br.com.mdsysfolha.controller.FolhaPagamentoController;
 import br.com.mdsysfolha.controller.FuncionarioController;
+import br.com.mdsysfolha.controller.LancamentoAvulsoController;
 import br.com.mdsysfolha.controller.LancamentoExtraController;
+import br.com.mdsysfolha.entity.FolhaPagamentoFuncionarioEntity;
 import br.com.mdsysfolha.entity.FuncionarioEntity;
 import br.com.mdsysfolha.entity.FuncionarioLctosExtraEntity;
+import br.com.mdsysfolha.entity.LancamentosAvulsoEntity;
 import br.com.mdsysfolha.entity.LancamentosExtraEntity;
 
 
@@ -78,6 +82,13 @@ public class FuncionarioAction extends ActionBase{
 			funcform.setListExtras(extras);
 			funcform.setLancamentoExtra(new FuncionarioLctosExtraEntity());
 			
+			LancamentoAvulsoController avulsoController = new LancamentoAvulsoController();
+			List<LancamentosAvulsoEntity> avulsos = avulsoController.listaByFunc(funcform.getFuncionario().getCpf());
+			funcform.setListAvulsos(avulsos);
+			
+			FolhaPagamentoController folhaController = new FolhaPagamentoController();
+			List<FolhaPagamentoFuncionarioEntity> folhas = folhaController.listarFolhaFuncByFolha(null, null, funcform.getFuncionario().getCpf());
+			funcform.setFolhasPgto(folhas);
 			
 		}else{
 			funcform.reset(mapping, request);

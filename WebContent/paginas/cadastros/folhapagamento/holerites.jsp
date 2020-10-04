@@ -8,7 +8,7 @@
 		<label><b>Mês:</b> ${folhaForm.folha.mes}</label>	
 		<label><b>Ano:</b> ${folhaForm.folha.ano}</label>
 		<label>
-			<b>Tipo:</b> ${folhaForm.folha.tipo eq 'M' ? "Mensal" : "13º" }	
+			<b>Tipo:</b> ${folha.tipo eq 'M' ? "Mensal" : folha.tipo eq 'D' ? "13º" : "Rescisão"}
 		</label>
 	</div>
 	<html:form action="/secure/cadastro/folhapagamento/holerites?method=exibeHolerite" styleId="formP">
@@ -21,12 +21,13 @@
   				<html:option value="2">2</html:option>
   				<html:option value="3">3</html:option>
   				<html:option value="4">4</html:option>
+  				<html:option value="5">5</html:option>
   			</html:select>
 		</div>
 		<div class="span6">		
 			<html:submit styleClass="btn btn-primary">Filtrar</html:submit> 
 			&nbsp;	
-			<html:link action="/secure/cadastro/folhapagamento/holerites.do?method=exibeHolerite&idParam=${folhaForm.folha.id}&filtLoja=" styleClass="btn btn-primary">Limpar</html:link>							
+			<html:link action="/secure/cadastro/folhapagamento/holerites.do?method=exibeHolerite&idParam=${folhaForm.folha.id}&filtLoja=&FiltFunc=" styleClass="btn btn-primary">Limpar</html:link>							
 		</div>
 	</html:form>
 </div>
@@ -45,11 +46,10 @@
                sort="list" defaultsort="2"
                pagesize="30" export="true">
 
-	<display:column property="funcionario.cpf"	title="CPF"			sortable="true" headerClass="sortable" style="width: 09%;"/>
-	<display:column property="funcionario.nome"	title="Nome"		sortable="true" headerClass="sortable" style="width: 16%;"/>
-	<display:column property="loja"	  			title="Loja"		sortable="true"  headerClass="sortable" style="width: 05%;"/>
-	<display:column property="cargo"			title="Cargo"		sortable="true"  headerClass="sortable" style="width: 10%;"/>
-	<display:column property="salario"	  		title="Vencimento"	sortable="false" headerClass="sortable" style="width: 08%;"/>	
+	<display:column property="funcionario.nome"	title="Nome"		sortable="true" headerClass="sortable" style="width: 15%;"/>
+	<display:column property="loja"	  			title="Loja"		sortable="true"  headerClass="sortable" style="width: 03%;"/>
+	<display:column property="cargo"			title="Cargo"		sortable="true"  headerClass="sortable" style="width: 08%;"/>
+	<display:column property="salario"	  		title="Vencimento"	sortable="false" headerClass="sortable" style="width: 06%;"/>	
 	
 	<display:column property="totalBeneficiosParse"	  		title="Cargo(+)"	sortable="false" headerClass="sortable" style="width: 08%;"/>
 	<display:column property="totalAvulsoBeneficiosParse"	title="Outros(+)"	sortable="false" headerClass="sortable" style="width: 08%;"/>
@@ -60,7 +60,11 @@
 	<display:column property="arredondamentoParse"	  		title="(+)"			sortable="false" headerClass="sortable" style="width: 08%;"/>
 	<display:column property="totalParse"	  				title="Total"		sortable="false" headerClass="sortable" style="width: 08%;"/>
 	
-	<display:setProperty name="export.excel.filename" value="funcionarios.xls"/>
+	<display:column style="width: 05%; text-align:center;" media="html">
+		<html:link action="/secure/cadastro/folhapagamento/holerites?method=imprimir&idParam=${folhaForm.folha.id}&filtFunc=${func.funcionario.cpf}" target="_blank" styleClass="btn"><img src="../../../shared/img/print-icon.png"/></html:link>
+	</display:column>
+	
+	<display:setProperty name="export.excel.filename" value="holerites.xls"/>
     <display:setProperty name="export.excel" value="true" />
 </display:table>
 
@@ -70,12 +74,12 @@
 
 <script>
 $('#imprimir1').on('click', function (e, confirmed) {
-	var location = './holerites.do?method=imprimir';
+	var location = './holerites.do?method=imprimir&filtFunc=';
     window.open(location,'_blank');			
 });
 
 $('#imprimir2').on('click', function (e, confirmed) {
-	var location = './holerites.do?method=imprimir';
+	var location = './holerites.do?method=imprimir&filtFunc=';
     window.open(location,'_blank');			
 });
 </script>

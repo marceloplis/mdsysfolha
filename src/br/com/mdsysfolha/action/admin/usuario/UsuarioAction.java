@@ -43,7 +43,7 @@ public class UsuarioAction extends ActionBase{
 				
 		    	UsuarioEntity usuario = usuarioController.buscaByUsername(usuarioform.getUsuario().getUsername());
 				if(usuario != null){
-					System.out.println("Usu·rio existente: "+ usuario.getUsername());
+					System.out.println("Usu√°rio existente: "+ usuario.getUsername());
 					ActionMessages errors = new ActionMessages();
 					errors.add("usuario",new ActionMessage("error.usuario.username.existente", usuario.getUsername()));	
 					saveErrors(request, errors);

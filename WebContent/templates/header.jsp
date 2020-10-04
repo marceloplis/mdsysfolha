@@ -28,7 +28,22 @@
 	            	</li>
 	            	
 	            	<li class="dropdown">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cargos<b class="caret"></b></a>
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Carga de Dados<b class="caret"></b></a>
+	                	<ul class="dropdown-menu">            	
+            				
+							<li>
+								<html:link action="/secure/cadastro/outroslancamentos.do?method=todos">Lançamentos Avulsos</html:link>
+							</li>
+							<li>
+								<html:link action="/secure/admin/arquivo.do?method=formulario">Carregar Arquivos Seta</html:link>
+							</li>	
+							
+							
+						</ul>
+					</li>	
+	            	
+	            	<li class="dropdown">
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros<b class="caret"></b></a>
 	                	<ul class="dropdown-menu">
             	
             				<li>
@@ -37,33 +52,17 @@
 							<li>
 								<html:link action="/secure/cadastro/desconto.do?method=todos">Descontos</html:link>
 							</li>
-            				<li>
-								<html:link action="/secure/cadastro/cargo.do?method=todos">Cargos</html:link>
-							</li>							
-						</ul>
-					</li>	              	
-	            	
-		            <li class="dropdown">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Funcionários<b class="caret"></b></a>
-	                	<ul class="dropdown-menu">
-            	
-            				<li>
+							<li>
 								<html:link action="/secure/cadastro/lancamentosextra.do?method=todos">Lançamentos Extras</html:link>
 							</li>
-							<li>
-								<html:link action="/secure/cadastro/outroslancamentos.do?method=todos">Lançamentos Avulsos</html:link>
-							</li>
+            				<li>
+								<html:link action="/secure/cadastro/cargo.do?method=todos">Cargos</html:link>
+							</li>	
 							<li>
 								<html:link action="/secure/cadastro/funcionario.do?method=todos">Funcionários</html:link>
-							</li>	
-							
-							
+							</li>						
 						</ul>
-					</li>					
-					
-					<li>
-						<html:link action="/secure/admin/arquivo.do?method=formulario">Carga de Dados</html:link>
-					</li> 
+					</li>	             					
 					
             		<li>
 						<html:link action="/secure/cadastro/folhapagamento.do?method=todos">Folha de Pagamento</html:link>

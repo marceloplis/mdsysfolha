@@ -35,6 +35,7 @@
   			<html:select property="folha.tipo">
   				<html:option value="M">Mensal</html:option>
   				<html:option value="D">Décimo Terceiro</html:option>
+  				<html:option value="R">Rescisão</html:option>
   			</html:select>   			
 			<br/>	
 			<html:submit styleClass="btn btn-primary">Gravar</html:submit>
@@ -60,7 +61,7 @@
 	<display:column property="ano"				title="Ano"				sortable="true" headerClass="sortable" style="width: 10%;"/>
 	<display:column property="mes"				title="Mês"				sortable="true" headerClass="sortable" style="width: 10%;"/>
 	<display:column 					    	title="Tipo"			sortable="true" headerClass="sortable" style="width: 10%;" >
-		${folha.tipo eq 'M' ? "Mensal" : "13º"}
+		${folha.tipo eq 'M' ? "Mensal" : folha.tipo eq 'D' ? "13º" : "Rescisão"}
 	</display:column>
 	<display:column 					    	title="Status"			sortable="true" headerClass="sortable" style="width: 10%;" >
 		${folha.status eq 'A' ? "Aberta" : folha.status eq 'G' ? "Gerada" : "Finalizada"}

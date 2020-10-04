@@ -58,9 +58,9 @@ public class FactoryDao {
 		try {
 			this.session.connection().close();
 		} catch (HibernateException e) {
-			System.out.println("Erro ao fechar conex„o com o BD: " + e.getMessage());
+			System.out.println("Erro ao fechar conex√£o com o BD: " + e.getMessage());
 		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conex„o com o BD: " + e.getMessage());
+			System.out.println("Erro ao fechar conex√£o com o BD: " + e.getMessage());
 		}
 		this.session.close();
 	}

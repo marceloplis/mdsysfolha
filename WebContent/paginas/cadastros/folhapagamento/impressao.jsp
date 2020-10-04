@@ -34,7 +34,7 @@ td{
 				<td>Função:</td>
 				<td colspan="2"><b>${h.funcionario.cargo.descricao}</b></td>
 				<td>Data-Base:</td>
-				<td colspan="2"><b>${folhaForm.folha.mes}/${folhaForm.folha.ano}</b></td>
+				<td colspan="2"><b>${h.folhaFuncionario.folhaPagamento.mes}/${h.folhaFuncionario.folhaPagamento.ano}</b></td>
 			</tr>
 			<tr>
 				<td colspan="6"><hr class="mini"></hr></td>

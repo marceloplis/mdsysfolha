@@ -10,7 +10,7 @@
 <div class="form-actions">
 	<html:form action="/secure/cadastro/funcionario?method=filtro" styleId="formP">
 		<span class="span1"><h4>Filtro:</h4></span>
-		<div class="span3">				  			
+		<div class="span2">				  			
   			<label>Loja</label> 
   			<html:select property="filtLoja">
   				<html:option value="0">Todas</html:option>
@@ -18,9 +18,10 @@
   				<html:option value="2">2</html:option>
   				<html:option value="3">3</html:option>
   				<html:option value="4">4</html:option>
+  				<html:option value="5">5</html:option>
   			</html:select>
 		</div>
-		<div class="span3">				  			
+		<div class="span2">				  			
   			<label>Status</label>
   			<html:select property="filtAtivo">
   				<html:option value="">Todos</html:option>
@@ -28,7 +29,7 @@
   				<html:option value="N">Inativo</html:option>
   			</html:select>
 		</div>
-		<div class="span3">				  			
+		<div class="span2">				  			
   			<label>Cargo</label>
   			<html:select property="filtCargo">
   				<html:option value="">Todos</html:option>
@@ -40,9 +41,16 @@
 				</c:forEach>
   			</html:select>
 		</div>
-		<div class="span3">		
+		<div class="span2">	
+			<label>Nome</label>
+			<html:text property="filtNome"></html:text>
+			<div>*Busca por nome parcial</div>
+		</div>
+		<div class="span2">		
 			<label>&nbsp;</label>	
-			<html:submit styleClass="btn btn-primary">Filtrar</html:submit> 						
+			<html:submit styleClass="btn btn-primary">Filtrar</html:submit> 	
+			&nbsp;		
+			<html:link action="/secure/cadastro/funcionario.do?method=todos" styleClass="btn btn-primary">Limpar</html:link>	
 		</div>
 	</html:form>
 </div>

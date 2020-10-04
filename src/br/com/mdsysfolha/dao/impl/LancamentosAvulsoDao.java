@@ -68,5 +68,13 @@ public class LancamentosAvulsoDao extends GenericDao<LancamentosAvulsoEntity> {
 			.list();
 		return lctos;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LancamentosAvulsoEntity> listaByFunc(String cpf){
+		List<LancamentosAvulsoEntity> lctos = session.createCriteria(LancamentosAvulsoEntity.class)
+			.add( Restrictions.eq("funcionario.cpf", cpf))
+			.list();
+		return lctos;
+	}
 		
 }

@@ -49,7 +49,7 @@ public class NovaSenhaForm extends FormBase{
 	    	  errors.add("senha",new ActionMessage("error.required.a","nova senha"));
 	      }
 	      if( this.getNovasenhaconfirma() == null || this.getNovasenhaconfirma().length() < 1 ) {
-	    	  errors.add("novasenhaconfirma",new ActionMessage("error.required.a","confirmação da nova senha"));
+	    	  errors.add("novasenhaconfirma",new ActionMessage("error.required.a","confirmaÃ§Ã£o da nova senha"));
 	      }
 	      if(!this.getNovasenha().equals(this.getNovasenhaconfirma())){
 	    	  errors.add("diferencasenha",new ActionMessage("error.novasenha.diferente"));

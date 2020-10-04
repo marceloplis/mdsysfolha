@@ -27,6 +27,10 @@ public class LancamentoAvulsoController {
 		return this.factoryDao.getLancamentoAvulsoDao().listaByFuncData(cpf, ano, mes, tpFolha);
 	}
 	
+	public List<LancamentosAvulsoEntity> listaByFunc(String cpf){		
+		return this.factoryDao.getLancamentoAvulsoDao().listaByFunc(cpf);
+	}
+	
 	public LancamentosAvulsoEntity gravar(LancamentosAvulsoEntity avulso) throws Exception{		
 		
 		if(avulso.getId() == null || avulso.getId() == 0){	

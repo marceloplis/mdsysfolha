@@ -31,14 +31,20 @@ public class FolhaPagamentoFuncionarioDao extends GenericDao<FolhaPagamentoFunci
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<FolhaPagamentoFuncionarioEntity> listarFolhaFuncionarioPorFolha(Long idFolha, Integer loja){
+	public List<FolhaPagamentoFuncionarioEntity> listarFolhaFuncionarioPorFolha(Long idFolha, Integer loja, String cpf){
 		
 		Criteria folhaFunc = session.createCriteria(FolhaPagamentoFuncionarioEntity.class, "folha");
 		folhaFunc.createAlias("folha.folhaPagamento","folhaPagamento");
-		folhaFunc.add(Restrictions.eq("folhaPagamento.id", idFolha));
+		if(idFolha != null && idFolha > 0 ){
+			folhaFunc.add(Restrictions.eq("folhaPagamento.id", idFolha));
+		}
 		if(loja != null && loja > 0 ){
 			folhaFunc.createAlias("folha.funcionario","funcionario");
 			folhaFunc.add(Restrictions.eq("funcionario.loja", loja));	
+		}
+		if(cpf != null && cpf.trim().length() > 0 ){
+			folhaFunc.createAlias("folha.funcionario","funcionario");
+			folhaFunc.add(Restrictions.eq("funcionario.cpf", cpf));	
 		}
 		
 		return folhaFunc.list();

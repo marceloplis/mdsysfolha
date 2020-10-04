@@ -29,6 +29,8 @@ public class FolhaPagamentoForm extends FormBase{
 	
 	private Integer filtLoja;
 	
+	private String filtFunc;
+	
 	public int funcsSemCargo;
 	
 	public FolhaPagamentoEntity getFolha() {
@@ -77,6 +79,14 @@ public class FolhaPagamentoForm extends FormBase{
 
 	public void setFiltLoja(Integer filtLoja) {
 		this.filtLoja = filtLoja;
+	}
+	
+	public String getFiltFunc() {
+		return filtFunc;
+	}
+	
+	public void setFiltFunc(String filtFunc) {
+		this.filtFunc = filtFunc;
 	}
 
 	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request ) {

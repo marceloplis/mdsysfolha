@@ -34,6 +34,7 @@
   				<html:option value="2">2</html:option>
   				<html:option value="3">3</html:option>
   				<html:option value="4">4</html:option>
+  				<html:option value="5">5</html:option>
   			</html:select>
 		</div>
 		<div class="span3">				  			
@@ -90,6 +91,7 @@
   			<html:select property="avulso.tp_folha">
   				<html:option value="M">Mensal</html:option>
   				<html:option value="D">Décimo Terceiro</html:option>
+  				<html:option value="R">Rescisão</html:option>
   			</html:select>
   			<label>Valor:</label>
 			<html:text property="avulso.valorParse" styleClass="input-medium" maxlength="10" onkeypress="return formata_decimal(this, '', ',', event, 10);"/>

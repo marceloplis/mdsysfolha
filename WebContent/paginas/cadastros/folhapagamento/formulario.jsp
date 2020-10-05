@@ -55,7 +55,7 @@
 		
 		
 		$('#holerites').on('click', function (e, confirmed) {
-			var location = '../cadastro/folhapagamento/holerites.do?method=exibeHolerite&idParam=${folhaForm.folha.id}';
+			var location = '../cadastro/folhapagamento/holerites.do?method=exibeHolerite&idParam=${folhaForm.folha.id}&filtLoja=&FiltFunc=';
 		    window.location.replace(location);			
 		});
 		

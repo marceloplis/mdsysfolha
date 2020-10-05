@@ -50,7 +50,7 @@
 	</div>  
 	
 	<div class="hero-unit">
-    	<h4><html:link action="/secure/cadastro/folhapagamento.do?method=todos">Folha de Pagamento</html:link></h4>
+    	<h4><html:link action="/secure/cadastro/folhapagamento.do?method=filtro">Folha de Pagamento</html:link></h4>
         <p style="text-align: justify;">
         	<i>
         		<label>i) O ANO e MÊS deve ser preenchido com o período base de pagamento (Exemplo: Se o pagamento é correspondente ao mês de Agosto de 2016, preencher com 2016 e 08 respectivamente).</label>

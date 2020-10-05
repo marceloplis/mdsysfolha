@@ -18,6 +18,42 @@
 	</div>
 </c:if>
 
+<div class="form-actions">
+	<html:form action="/secure/cadastro/folhapagamento?method=filtro" styleId="formP">
+		<div class="span5">				  			
+  			<label>Período</label> 
+  			&nbsp;De&nbsp;
+  			<div class="input-append date" id="datepickerInicio" data-date="01-2016" data-date-format="dd/mm/yyyy">
+				<html:text property="filtDtinicio" styleClass="input-medium" readonly="true"/>
+ 				<span class="add-on"><i class="icon-th"></i></span>      
+			</div> 
+			&nbsp;Até&nbsp;
+			<div class="input-append date" id="datepickerFim" data-date="01-2016" data-date-format="dd/mm/yyyy">
+				<html:text property="filtDtFim" styleClass="input-medium" readonly="true"/>
+ 				<span class="add-on"><i class="icon-th"></i></span>      
+			</div> 
+		</div>
+		<div class="span5">				  			
+  			<label>Status</label>
+  			<html:select property="filtStatus" styleClass="input-medium">
+  				<html:option value="">Todos</html:option>
+  				<html:option value="A">Aberta</html:option>
+  				<html:option value="G">Gerada</html:option>
+  			</html:select>
+		</div>
+		<div class="span3">		
+			<html:submit styleClass="btn btn-primary">Filtrar</html:submit> 
+			&nbsp;	
+			<html:link action="/secure/cadastro/folhapagamento.do?method=todos" styleClass="btn btn-primary">Limpar</html:link>							
+		</div>
+	</html:form>
+	<script>	
+		$("#datepicker").datepicker();
+		$("#datepickerInicio").datepicker();
+		$("#datepickerFim").datepicker();
+	</script>
+</div>
+
 <a data-target="#myModal" role="button" class="btn" data-toggle="modal" href="#">Nova Folha de Pagamento</a>
  
 <div class="modal fade hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-remote="/secure/cadastro/folhapagamento.do?method=todos">
@@ -55,7 +91,7 @@
 
 <display:table id="folha" name="${folhaForm.listFolhas}" requestURI="/secure/cadastro/folhapagamento.do"
                class="table table-bordered"
-               sort="list" defaultsort="4"
+               sort="list" defaultsort="5" defaultorder="descending"
                pagesize="20" export="true">
 
 	<display:column property="ano"				title="Ano"				sortable="true" headerClass="sortable" style="width: 10%;"/>

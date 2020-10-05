@@ -1,5 +1,6 @@
 package br.com.mdsysfolha.action.funcionario;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,11 @@ public class FuncionarioAction extends ActionBase{
 	        saveMessages(request, messages);   
 		}
 		
+		funcform.setFiltLoja(0);
+		funcform.setFiltNome(null);
+		funcform.setFiltAtivo(null);
+		funcform.setFiltCargo(0);
+		
 		
 		saveToken(request);
 		
@@ -82,12 +88,18 @@ public class FuncionarioAction extends ActionBase{
 			funcform.setListExtras(extras);
 			funcform.setLancamentoExtra(new FuncionarioLctosExtraEntity());
 			
-			LancamentoAvulsoController avulsoController = new LancamentoAvulsoController();
-			List<LancamentosAvulsoEntity> avulsos = avulsoController.listaByFunc(funcform.getFuncionario().getCpf());
+			LancamentoAvulsoController avulsoController = new LancamentoAvulsoController();			
+			Calendar dtInicioAv = Calendar.getInstance(); 
+			dtInicioAv.add(Calendar.MONTH, -6);			
+			Calendar dtFimAv = Calendar.getInstance(); 			
+			List<LancamentosAvulsoEntity> avulsos = avulsoController.filtro(dtInicioAv.getTime(), dtFimAv.getTime(), funcform.getFuncionario().getCpf(), null);
 			funcform.setListAvulsos(avulsos);
 			
 			FolhaPagamentoController folhaController = new FolhaPagamentoController();
-			List<FolhaPagamentoFuncionarioEntity> folhas = folhaController.listarFolhaFuncByFolha(null, null, funcform.getFuncionario().getCpf());
+			Calendar dtInicioFl = Calendar.getInstance(); 
+			dtInicioFl.add(Calendar.MONTH, -6);			
+			Calendar dtFimFl = Calendar.getInstance(); 
+			List<FolhaPagamentoFuncionarioEntity> folhas = folhaController.listarFolhaFuncByFolha(dtInicioFl.getTime(), dtFimFl.getTime(), null, null, funcform.getFuncionario().getCpf());
 			funcform.setFolhasPgto(folhas);
 			
 		}else{

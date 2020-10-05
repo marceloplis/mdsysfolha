@@ -1,5 +1,7 @@
 package br.com.mdsysfolha.action.avulso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,11 @@ public class LancamentoAvulsoAction extends ActionBase{
 		FuncionarioController funcController = new FuncionarioController();
 		avulsoForm.setListFuncionarios(funcController.listTodos());
 		
+		avulsoForm.setDtfiltroInicio(null);
+		avulsoForm.setDtfiltroFim(null);
+		avulsoForm.setFiltFunc(null);
+		avulsoForm.setFiltLoja(0);
+		
 		saveToken(request);
 		
 		return mapping.findForward("listar");
@@ -46,9 +53,17 @@ public class LancamentoAvulsoAction extends ActionBase{
 		LancamentoAvulsoController avulsoController = new LancamentoAvulsoController();
 		avulsoForm.setDtLctoParse(null);
 		
-		Date dtInicio = avulsoForm.getDtfiltroInicio() != null && avulsoForm.getDtfiltroInicio().length() > 0 ? Utils.converteData(avulsoForm.getDtfiltroInicio()) : null;
-		Date dtFim = avulsoForm.getDtfiltroFim() != null && avulsoForm.getDtfiltroFim().length() > 0 ? Utils.converteData(avulsoForm.getDtfiltroFim()) : null;
-				
+		Calendar dtInicioNull = Calendar.getInstance(); 
+		dtInicioNull.add(Calendar.MONTH, -2);			
+		Calendar dtFimNull = Calendar.getInstance(); 
+		
+		Date dtInicio = avulsoForm.getDtfiltroInicio() != null && avulsoForm.getDtfiltroInicio().length() > 0 ? Utils.converteData(avulsoForm.getDtfiltroInicio()) : dtInicioNull.getTime();
+		Date dtFim = avulsoForm.getDtfiltroFim() != null && avulsoForm.getDtfiltroFim().length() > 0 ? Utils.converteData(avulsoForm.getDtfiltroFim()) : dtFimNull.getTime();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		avulsoForm.setDtfiltroInicio(sdf.format(dtInicio));
+		avulsoForm.setDtfiltroFim(sdf.format(dtFim));
+		
 		avulsoForm.setListAvulsos(avulsoController.filtro(dtInicio, dtFim, avulsoForm.getFiltFunc(), avulsoForm.getFiltLoja()));
 		avulsoForm.setAvulso(new LancamentosAvulsoEntity());
 		

@@ -1,9 +1,12 @@
 package br.com.mdsysfolha.action.folhapagamento;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,7 @@ import br.com.mdsysfolha.entity.LancamentosFolhaExtraEntity;
 import br.com.mdsysfolha.enums.StatusFolhaEnum;
 import br.com.mdsysfolha.enums.TipoLancamentoEnum;
 import br.com.mdsysfolha.enums.TipoValorEnum;
+import br.com.mdsysfolha.util.Utils;
 import br.com.mdsysfolha.vo.Holerite;
 
 public class FolhaPagamentoAction extends ActionBase implements Serializable{
@@ -54,6 +58,40 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 
 		FolhaPagamentoController folhaController = new FolhaPagamentoController();
 		List<FolhaPagamentoEntity> folhas = folhaController.listTodos();
+		folhaForm.setListFolhas(folhas);
+		folhaForm.setFolha(new FolhaPagamentoEntity());
+
+		FuncionarioController funcController = new FuncionarioController();
+		List<FuncionarioEntity> funcsSemCargo = funcController.filtro(0, null, null, null, -1);
+		folhaForm.setFuncsSemCargo(funcsSemCargo.size());
+		
+		folhaForm.setFiltDtinicio(null);
+		folhaForm.setFiltDtFim(null);
+		folhaForm.setFiltStatus(null);
+
+		saveToken(request);
+
+		return mapping.findForward("listar");
+	}
+	
+	public ActionForward filtro(ActionMapping mapping, ActionForm  form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		FolhaPagamentoForm folhaForm = (FolhaPagamentoForm) form;
+
+		FolhaPagamentoController folhaController = new FolhaPagamentoController();
+		
+		Calendar dtInicioNull = Calendar.getInstance(); 
+		dtInicioNull.add(Calendar.MONTH, -6);			
+		Calendar dtFimNull = Calendar.getInstance(); 	
+		
+		Date dtInicio = folhaForm.getFiltDtinicio() != null && folhaForm.getFiltDtinicio().length() > 0 ? Utils.converteData(folhaForm.getFiltDtinicio()) : dtInicioNull.getTime();
+		Date dtFim = folhaForm.getFiltDtFim() != null && folhaForm.getFiltDtFim().length() > 0 ? Utils.converteData(folhaForm.getFiltDtFim()) : dtFimNull.getTime();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		folhaForm.setFiltDtinicio(sdf.format(dtInicio));
+		folhaForm.setFiltDtFim(sdf.format(dtFim));
+				
+		List<FolhaPagamentoEntity> folhas = folhaController.filtro(dtInicio, dtFim, folhaForm.getFiltStatus());
 		folhaForm.setListFolhas(folhas);
 		folhaForm.setFolha(new FolhaPagamentoEntity());
 
@@ -333,7 +371,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 	private List<LancamentosFolhaBeneficioEntity> calcBeneficios(FuncionarioEntity func, FolhaPagamentoEntity folha, FolhaPagamentoFuncionarioEntity folhaFunc){
 		List<LancamentosFolhaBeneficioEntity> listRet = new ArrayList<LancamentosFolhaBeneficioEntity>();
 
-		Double salario_liq = folhaFunc != null ? folhaFunc.getSalario() : func.getSalario();
+		Double salario_liq = folhaFunc != null && folhaFunc.getSalario() != null ? folhaFunc.getSalario() : func.getSalario();
 
 		List<CargoBeneficioEntity> lista = new ArrayList<CargoBeneficioEntity>(func.getCargo().getCargoBeneficios());
 
@@ -351,7 +389,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 			if(cargBenef.getBeneficio().getTipo_valor().equals(TipoValorEnum.MOEDA.getValue())){
 				valor_benef = cargBenef.getValor();
 			}else{				
-				valor_benef = ((cargBenef.getBeneficio().getBase_calculo().equals("B") ? (folhaFunc != null ? folhaFunc.getSalario() : func.getSalario()) : salario_liq) * cargBenef.getValor())/100;
+				valor_benef = ((cargBenef.getBeneficio().getBase_calculo().equals("B") ? (folhaFunc != null && folhaFunc.getSalario() != null ? folhaFunc.getSalario() : func.getSalario()) : salario_liq) * cargBenef.getValor())/100;
 			}
 
 			if(cargBenef.getBeneficio().getAltera_base_calculo().equals("S")){
@@ -417,7 +455,7 @@ public class FolhaPagamentoAction extends ActionBase implements Serializable{
 
 		FolhaPagamentoController folhaController = new FolhaPagamentoController();
 
-		List<FolhaPagamentoFuncionarioEntity> folhasFuncs = folhaController.listarFolhaFuncByFolha(folhaForm.getIdParam(), folhaForm.getFiltLoja(), folhaForm.getFiltFunc());
+		List<FolhaPagamentoFuncionarioEntity> folhasFuncs = folhaController.listarFolhaFuncByFolha(null, null, folhaForm.getIdParam(), folhaForm.getFiltLoja(), folhaForm.getFiltFunc());
 		List<Holerite> listHolerites = new ArrayList<Holerite>();
 
 		for(FolhaPagamentoFuncionarioEntity ff : folhasFuncs){

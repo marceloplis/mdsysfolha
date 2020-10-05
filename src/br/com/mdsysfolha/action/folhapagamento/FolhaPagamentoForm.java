@@ -33,6 +33,12 @@ public class FolhaPagamentoForm extends FormBase{
 	
 	public int funcsSemCargo;
 	
+	public String filtDtinicio;
+	
+	public String filtDtFim;
+	
+	public String FiltStatus;
+	
 	public FolhaPagamentoEntity getFolha() {
 		return folha;
 	}
@@ -87,6 +93,30 @@ public class FolhaPagamentoForm extends FormBase{
 	
 	public void setFiltFunc(String filtFunc) {
 		this.filtFunc = filtFunc;
+	}
+
+	public String getFiltDtinicio() {
+		return filtDtinicio;
+	}
+
+	public void setFiltDtinicio(String filtDtinicio) {
+		this.filtDtinicio = filtDtinicio;
+	}
+
+	public String getFiltDtFim() {
+		return filtDtFim;
+	}
+
+	public void setFiltDtFim(String filtDtFim) {
+		this.filtDtFim = filtDtFim;
+	}
+
+	public String getFiltStatus() {
+		return FiltStatus;
+	}
+	
+	public void setFiltStatus(String filtStatus) {
+		FiltStatus = filtStatus;
 	}
 
 	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request ) {

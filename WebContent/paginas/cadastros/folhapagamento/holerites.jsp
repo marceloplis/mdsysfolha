@@ -8,7 +8,7 @@
 		<label><b>Mês:</b> ${folhaForm.folha.mes}</label>	
 		<label><b>Ano:</b> ${folhaForm.folha.ano}</label>
 		<label>
-			<b>Tipo:</b> ${folha.tipo eq 'M' ? "Mensal" : folha.tipo eq 'D' ? "13º" : "Rescisão"}
+			<b>Tipo:</b> ${folhaForm.folha.tipo eq 'M' ? "Mensal" : folhaForm.folha.tipo eq 'D' ? "13º" : "Rescisão"}
 		</label>
 	</div>
 	<html:form action="/secure/cadastro/folhapagamento/holerites?method=exibeHolerite" styleId="formP">

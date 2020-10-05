@@ -1,5 +1,8 @@
 package br.com.mdsysfolha.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -31,20 +34,30 @@ public class FolhaPagamentoFuncionarioDao extends GenericDao<FolhaPagamentoFunci
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<FolhaPagamentoFuncionarioEntity> listarFolhaFuncionarioPorFolha(Long idFolha, Integer loja, String cpf){
+	public List<FolhaPagamentoFuncionarioEntity> listarFolhaFuncionarioPorFolha(Date dtInicio, Date dtFim, Long idFolha, Integer loja, String cpf){
 		
 		Criteria folhaFunc = session.createCriteria(FolhaPagamentoFuncionarioEntity.class, "folha");
 		folhaFunc.createAlias("folha.folhaPagamento","folhaPagamento");
+		if(dtInicio != null && dtFim != null){
+			Calendar cInicio = Calendar.getInstance();
+			cInicio.setTime(dtInicio);
+			
+			Calendar cFim = Calendar.getInstance();
+			cFim.setTime(dtFim);
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			folhaFunc.add(Restrictions.between("folhaPagamento.data_criacao",java.sql.Date.valueOf(sdf.format(cInicio.getTime())),java.sql.Date.valueOf(sdf.format(cFim.getTime()))));
+		}
 		if(idFolha != null && idFolha > 0 ){
 			folhaFunc.add(Restrictions.eq("folhaPagamento.id", idFolha));
 		}
-		if(loja != null && loja > 0 ){
+		if((loja != null && loja > 0) || (cpf != null && cpf.trim().length() > 0)){
 			folhaFunc.createAlias("folha.funcionario","funcionario");
-			folhaFunc.add(Restrictions.eq("funcionario.loja", loja));	
-		}
-		if(cpf != null && cpf.trim().length() > 0 ){
-			folhaFunc.createAlias("folha.funcionario","funcionario");
-			folhaFunc.add(Restrictions.eq("funcionario.cpf", cpf));	
+			if(loja != null && loja > 0)
+				folhaFunc.add(Restrictions.eq("funcionario.loja", loja));
+			if(cpf != null && cpf.trim().length() > 0)
+				folhaFunc.add(Restrictions.eq("funcionario.cpf", cpf));	
 		}
 		
 		return folhaFunc.list();

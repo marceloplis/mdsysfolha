@@ -158,6 +158,7 @@
 </div>
 
 <div id="Avulsos" class="tabcontent">
+	<span>*Últimos 6 meses</span>
 	<display:table id="avulso" name="${funcionarioForm.listAvulsos}"
 		requestURI="/secure/cadastro/funcionario.do?tab=2"
 		class="table table-bordered" sort="list" defaultsort="7"
@@ -183,6 +184,7 @@
 </div>
 
 <div id="Holerites" class="tabcontent">
+	<span>*Últimos 6 meses</span>
 	<display:table id="folha" name="${funcionarioForm.folhasPgto}"
 		requestURI="/secure/cadastro/funcionario.do?tab=3"
 		class="table table-bordered" sort="list" defaultsort="5"

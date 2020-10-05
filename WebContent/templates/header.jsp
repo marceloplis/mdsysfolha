@@ -59,13 +59,13 @@
 								<html:link action="/secure/cadastro/funcionario.do?method=todos">Funcionários</html:link>
 							</li>	
 							<li>
-								<html:link action="/secure/cadastro/outroslancamentos.do?method=todos">Lançamentos Avulsos</html:link>
+								<html:link action="/secure/cadastro/outroslancamentos.do?method=filtro">Lançamentos Avulsos</html:link>
 							</li>					
 						</ul>
 					</li>	             					
 					
             		<li>
-						<html:link action="/secure/cadastro/folhapagamento.do?method=todos">Folha de Pagamento</html:link>
+						<html:link action="/secure/cadastro/folhapagamento.do?method=filtro">Folha de Pagamento</html:link>
 					</li>           	
 					
 					<li class="dropdown">
